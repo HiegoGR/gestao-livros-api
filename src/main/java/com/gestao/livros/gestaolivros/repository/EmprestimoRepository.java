@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmprestimoRepository extends JpaRepository<EmprestimoEntity,Long> {
 
+    // Verificar se o livro já está emprestado, caso estiver retorna true caso contrario false
+    boolean existsByLivroIdAndStatusIsTrue(Long livroId);
 }

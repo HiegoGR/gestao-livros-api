@@ -2,8 +2,6 @@ package com.gestao.livros.gestaolivros.service;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
 import com.gestao.livros.gestaolivros.entities.EmprestimoEntity;
-import com.gestao.livros.gestaolivros.entities.LivroEntity;
-import com.gestao.livros.gestaolivros.entities.UsuarioEntity;
 import com.gestao.livros.gestaolivros.mapper.EmprestimoMapper;
 import com.gestao.livros.gestaolivros.repository.EmprestimoRepository;
 import com.gestao.livros.gestaolivros.repository.LivroRepository;
@@ -47,6 +45,12 @@ public class EmprestimoService {
 
     //método para salvar Empréstimos
     public EmprestimoDto save(EmprestimoDto emprestimoDto) {
+        boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
+
+        if (livroEmprestado) {
+            throw new RuntimeException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
+        }
+
         EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
         emprestimo = emprestimoRepository.save(emprestimo);
         return emprestimoMapper.toDto(emprestimo);
@@ -82,4 +86,5 @@ public class EmprestimoService {
         }
         emprestimoRepository.deleteById(id);
     }
+
 }
