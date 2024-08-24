@@ -21,7 +21,7 @@ public class LivroEntity {
     private Long id;
 
     @NotNull
-    @Size(max = 30)
+    @Size(max = 100)
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
 
