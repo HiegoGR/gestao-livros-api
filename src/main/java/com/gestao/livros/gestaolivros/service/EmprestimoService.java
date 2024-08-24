@@ -1,8 +1,11 @@
 package com.gestao.livros.gestaolivros.service;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
+import com.gestao.livros.gestaolivros.dto.LivroDto;
 import com.gestao.livros.gestaolivros.entities.EmprestimoEntity;
+import com.gestao.livros.gestaolivros.entities.LivroEntity;
 import com.gestao.livros.gestaolivros.mapper.EmprestimoMapper;
+import com.gestao.livros.gestaolivros.mapper.LivroMapper;
 import com.gestao.livros.gestaolivros.repository.EmprestimoRepository;
 import com.gestao.livros.gestaolivros.repository.LivroRepository;
 import com.gestao.livros.gestaolivros.repository.UsuarioRepository;
@@ -21,7 +24,6 @@ public class EmprestimoService {
 
     @Autowired
     private EmprestimoRepository emprestimoRepository;
-
     @Autowired
     private EmprestimoMapper emprestimoMapper;
 
@@ -30,6 +32,9 @@ public class EmprestimoService {
 
     @Autowired
     private LivroRepository livroRepository;
+
+    @Autowired
+    private LivroMapper livroMapper;
 
 
     public List<EmprestimoDto> getAllEmprestimo() {
@@ -55,7 +60,6 @@ public class EmprestimoService {
         emprestimo = emprestimoRepository.save(emprestimo);
         return emprestimoMapper.toDto(emprestimo);
     }
-
 
 
     //método para atualizar  Empréstimos na base
@@ -85,6 +89,16 @@ public class EmprestimoService {
             throw new RuntimeException("Empréstimo não encontrado com o ID: " + id);
         }
         emprestimoRepository.deleteById(id);
+    }
+
+    //metodo para recomendar livros para o usuario
+    public List<LivroDto> recomendarLivros(Long usuarioId) {
+        //buscar livros com base nos interesses anteriores do usuárioe
+        List<LivroEntity> livrosRecomendados = livroRepository.findRecomendacoesByUsuarioId(usuarioId);
+
+        return livrosRecomendados.stream()
+                .map(livroMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 }
