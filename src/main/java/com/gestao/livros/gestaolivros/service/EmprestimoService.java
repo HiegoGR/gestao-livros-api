@@ -2,8 +2,12 @@ package com.gestao.livros.gestaolivros.service;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
 import com.gestao.livros.gestaolivros.entities.EmprestimoEntity;
+import com.gestao.livros.gestaolivros.entities.LivroEntity;
+import com.gestao.livros.gestaolivros.entities.UsuarioEntity;
 import com.gestao.livros.gestaolivros.mapper.EmprestimoMapper;
 import com.gestao.livros.gestaolivros.repository.EmprestimoRepository;
+import com.gestao.livros.gestaolivros.repository.LivroRepository;
+import com.gestao.livros.gestaolivros.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,12 @@ public class EmprestimoService {
     @Autowired
     private EmprestimoMapper emprestimoMapper;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private LivroRepository livroRepository;
+
 
     public List<EmprestimoDto> getAllEmprestimo() {
         return emprestimoRepository.findAll().stream()
@@ -37,10 +47,12 @@ public class EmprestimoService {
 
     //método para salvar Empréstimos
     public EmprestimoDto save(EmprestimoDto emprestimoDto) {
-        EmprestimoEntity emprestimo = emprestimoMapper.toEntity(emprestimoDto);
+        EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
         emprestimo = emprestimoRepository.save(emprestimo);
         return emprestimoMapper.toDto(emprestimo);
     }
+
+
 
     //método para atualizar  Empréstimos na base
     public EmprestimoDto update(EmprestimoDto emprestimoDto) {
@@ -53,7 +65,7 @@ public class EmprestimoService {
             throw new RuntimeException("Empréstimo não encontrado com o ID: " + emprestimoDto.getId());
         }
 
-        EmprestimoEntity emprestimo = emprestimoMapper.toEntity(emprestimoDto);
+        EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
         emprestimo.setId(emprestimoDto.getId());
 
         // atualiza Empréstimo na base

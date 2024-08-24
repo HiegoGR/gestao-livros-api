@@ -42,4 +42,8 @@ public class UsuarioEntity {
     @Size(max = 14)
     @Column(name = "telefone", length = 14, nullable = false)
     private String telefone;
+
+    public UsuarioEntity(Long id) {
+        this.id = id;
+    }
 }

@@ -31,4 +31,5 @@ public class EmprestimoDto {
 
     @NotNull
     private Boolean status;
+
 }

@@ -39,4 +39,7 @@ public class LivroEntity {
     @Column(name = "data_publicacao", nullable = false)
     private LocalDate dataPublicacao;
 
+    public LivroEntity(Long id) {
+        this.id = id;
+    }
 }
