@@ -1,7 +1,9 @@
 package com.gestao.livros.gestaolivros.entities;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "usuario")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioEntity {
 
     @Id

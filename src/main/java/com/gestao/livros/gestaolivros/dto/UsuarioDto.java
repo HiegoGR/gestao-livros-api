@@ -1,13 +1,18 @@
 package com.gestao.livros.gestaolivros.dto;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDto {
 
     private Long id;
