@@ -23,12 +23,12 @@ public class LivroEntity {
 
     @NotNull
     @Size(max = 50)
-    @Column(name = "autor", length = 50)
+    @Column(name = "autor", length = 50, nullable = false)
     private String autor;
 
     @NotNull
     @Size(max = 50)
-    @Column(name = "categoria", length = 50)
+    @Column(name = "categoria", length = 50, nullable = false)
     private String categoria;
 
     @NotNull

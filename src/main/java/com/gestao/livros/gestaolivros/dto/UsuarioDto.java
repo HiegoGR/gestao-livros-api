@@ -1,21 +1,15 @@
 package com.gestao.livros.gestaolivros.dto;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "usuario")
-@Data
+
 public class UsuarioDto {
 
-    @Id
     private Long Id;
 
     @NotNull
@@ -28,6 +22,7 @@ public class UsuarioDto {
     private String email;
 
     @NotNull
+    @PastOrPresent(message = "A data de cadastro não pode ser no futuro.")
     private LocalDate dataCadastro;
 
     @NotNull

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -25,15 +26,16 @@ public class UsuarioEntity {
     @NotNull
     @Email
     @Size(max = 50)
-    @Column(name = "email", length = 50)
+    @Column(name = "email", length = 50, nullable = false)
     private String email;
 
     @NotNull
+    @PastOrPresent(message = "A data de cadastro não pode ser no futuro.")
     @Column(name = "data_cadastro", nullable = false)
     private LocalDate dataCadastro;
 
     @NotNull
     @Size(max = 14)
-    @Column(name = "telefone", length = 14)
+    @Column(name = "telefone", length = 14, nullable = false)
     private String telefone;
 }
