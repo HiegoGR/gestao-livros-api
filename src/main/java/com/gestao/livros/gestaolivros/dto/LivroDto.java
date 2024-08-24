@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class LivroDto {
 
-    private Long Id;
+    private Long id;
 
     @NotNull
     @Size(max = 100)

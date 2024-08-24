@@ -14,15 +14,17 @@ public class EmprestimoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @NotNull
-    @Column(name = "usuario_id", length = 100, nullable = false)
-    private Long idUsuario;
+    @ManyToOne(fetch = FetchType.LAZY) // Define o relacionamento um para muitos
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioEntity usuario;
 
     @NotNull
-    @Column(name = "livro_id", length = 100, nullable = false)
-    private Long idLivro;
+    @ManyToOne(fetch = FetchType.LAZY) // Define o relacionamento um para muitos
+    @JoinColumn(name = "livro_id", nullable = false)
+    private LivroEntity livro;
 
     @NotNull
     @PastOrPresent(message = "Empréstimo de livro com data futura não é permitido.")
