@@ -1,22 +1,21 @@
 package com.gestao.livros.gestaolivros.service;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
+import com.gestao.livros.gestaolivros.dto.EmprestimoHistoricoLivrosUsuario;
 import com.gestao.livros.gestaolivros.dto.LivroDto;
 import com.gestao.livros.gestaolivros.entities.EmprestimoEntity;
 import com.gestao.livros.gestaolivros.entities.LivroEntity;
 import com.gestao.livros.gestaolivros.mapper.EmprestimoMapper;
 import com.gestao.livros.gestaolivros.mapper.LivroMapper;
 import com.gestao.livros.gestaolivros.repository.EmprestimoRepository;
+import com.gestao.livros.gestaolivros.repository.HistoricoLivrosDao;
 import com.gestao.livros.gestaolivros.repository.LivroRepository;
 import com.gestao.livros.gestaolivros.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -37,6 +36,9 @@ public class EmprestimoService {
 
     @Autowired
     private LivroMapper livroMapper;
+
+    @Autowired
+    private HistoricoLivrosDao historicoLivrosDao;
 
 
     public List<EmprestimoDto> getAllEmprestimo() {
@@ -108,6 +110,36 @@ public class EmprestimoService {
             throw new RuntimeException("Empréstimo não encontrado com o ID: " + id);
         }
         emprestimoRepository.deleteById(id);
+    }
+
+    public List<EmprestimoHistoricoLivrosUsuario> getHistoricoEmprestimo(Long idUser) {
+        List<EmprestimoHistoricoLivrosUsuario> dtoList = historicoLivrosDao.historicoDeLivrosPegosPorUsuario(idUser);
+
+        if(dtoList.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return dtoList;
+    }
+
+    public List<EmprestimoHistoricoLivrosUsuario> getEmprestimoAtivoPeloUsuario(Long idUser) {
+        List<EmprestimoHistoricoLivrosUsuario> dtoList = historicoLivrosDao.livrosAtivosQueEstaComUsuario(idUser);
+
+        if(dtoList.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return dtoList;
+    }
+
+    public List<LivroDto> getLivrosQuePodemSerEmprestado() {
+        List<LivroDto> dtoList = historicoLivrosDao.livrosQuePodemSerEmprestado();
+
+        if(dtoList.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return dtoList;
     }
 
     //metodo para recomendar livros para o usuario

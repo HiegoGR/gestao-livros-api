@@ -1,6 +1,7 @@
 package com.gestao.livros.gestaolivros.controller;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
+import com.gestao.livros.gestaolivros.dto.EmprestimoHistoricoLivrosUsuario;
 import com.gestao.livros.gestaolivros.dto.LivroDto;
 import com.gestao.livros.gestaolivros.service.EmprestimoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +48,16 @@ public class EmprestimoController {
         return ResponseEntity.created(uri).body(saveAndSuggest);
     }
 
-    @GetMapping("/loans/suggest-books/user/{id}")
-    public ResponseEntity<List<LivroDto>> findSuggestBooksForUser(@PathVariable("id") Long idUser){
-        List<LivroDto> dtoList = emprestimoService.recomendarLivros(idUser);
-        return ResponseEntity.ok().body(dtoList);
-    }
-
     @PutMapping("/loans")
     public ResponseEntity<EmprestimoDto> updateLoan(@RequestBody EmprestimoDto dto){
         EmprestimoDto newDto = emprestimoService.update(dto);
         return ResponseEntity.ok().body(newDto);
+    }
+
+    @GetMapping("/loans/suggest-books/user/{id}")
+    public ResponseEntity<List<LivroDto>> findSuggestBooksForUser(@PathVariable("id") Long idUser){
+        List<LivroDto> dtoList = emprestimoService.recomendarLivros(idUser);
+        return ResponseEntity.ok().body(dtoList);
     }
 
     @DeleteMapping("/loans/{id}")
@@ -64,5 +65,29 @@ public class EmprestimoController {
         emprestimoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    @GetMapping("/loans/books/history/user/{id}")
+    public ResponseEntity<List<EmprestimoHistoricoLivrosUsuario>> findHistoryBooksForUser(@PathVariable("id") Long idUser){
+        List<EmprestimoHistoricoLivrosUsuario> dtoList = emprestimoService.getHistoricoEmprestimo(idUser);
+        return ResponseEntity.ok().body(dtoList);
+    }
+
+    @GetMapping("/loans/books-active/user/{id}")
+    public ResponseEntity<List<EmprestimoHistoricoLivrosUsuario>> findBooksActiveForUser(@PathVariable("id") Long idUser){
+        List<EmprestimoHistoricoLivrosUsuario> dtoList = emprestimoService.getEmprestimoAtivoPeloUsuario(idUser);
+        return ResponseEntity.ok().body(dtoList);
+    }
+
+    @GetMapping("/loans/books-can-borred")
+    public ResponseEntity<List<LivroDto>> getAllBooksCanForLoans(){
+        List<LivroDto> dtoList = emprestimoService.getLivrosQuePodemSerEmprestado();
+        return ResponseEntity.ok().body(dtoList);
+    }
+
+
+
+
+
 
 }
