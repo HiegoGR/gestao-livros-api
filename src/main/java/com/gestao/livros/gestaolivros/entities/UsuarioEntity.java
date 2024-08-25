@@ -1,5 +1,6 @@
 package com.gestao.livros.gestaolivros.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class UsuarioEntity {
     @NotNull
     @PastOrPresent(message = "A data de cadastro não pode ser no futuro.")
     @Column(name = "data_cadastro", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataCadastro;
 
     @NotNull
@@ -45,5 +47,12 @@ public class UsuarioEntity {
 
     public UsuarioEntity(Long id) {
         this.id = id;
+    }
+
+    public UsuarioEntity(String nome, String email, LocalDate dataCadastro, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.dataCadastro = dataCadastro;
+        this.telefone = telefone;
     }
 }

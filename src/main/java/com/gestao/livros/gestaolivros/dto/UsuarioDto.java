@@ -1,5 +1,6 @@
 package com.gestao.livros.gestaolivros.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class UsuarioDto {
 
     @NotNull
     @PastOrPresent(message = "A data de cadastro não pode ser no futuro.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataCadastro;
 
     @NotNull

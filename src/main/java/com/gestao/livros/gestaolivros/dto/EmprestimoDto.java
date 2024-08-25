@@ -1,5 +1,6 @@
 package com.gestao.livros.gestaolivros.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +25,11 @@ public class EmprestimoDto {
 
     @NotNull
     @PastOrPresent(message = "Empréstimo de livro com data futura não é permitido.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataEmprestimo;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataDevolucao;
 
     @NotNull

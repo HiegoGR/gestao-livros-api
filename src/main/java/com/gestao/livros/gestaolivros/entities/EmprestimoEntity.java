@@ -1,5 +1,6 @@
 package com.gestao.livros.gestaolivros.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,10 +34,12 @@ public class EmprestimoEntity {
     @NotNull
     @PastOrPresent(message = "Empréstimo de livro com data futura não é permitido.")
     @Column(name = "data_emprestimo", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataEmprestimo;
 
     @NotNull
     @Column(name = "data_devolucao", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataDevolucao;
 
     @NotNull
