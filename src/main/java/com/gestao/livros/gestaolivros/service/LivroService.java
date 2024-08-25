@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,12 +17,14 @@ import java.util.stream.Collectors;
 @Transactional
 public class LivroService {
 
-
     @Autowired
     private LivroRepository livroRepository;
 
     @Autowired
     private LivroMapper livroMapper;
+
+    @Autowired
+    private GoogleBooksService googleBooksService;
 
 
     public List<LivroDto> getAllLivro() {
@@ -69,6 +72,17 @@ public class LivroService {
             throw new RuntimeException("Livro não encontrado com o ID: " + id);
         }
         livroRepository.deleteById(id);
+    }
+
+    public List<LivroDto> findBookName(String bookName) {
+        List<LivroDto> bookList = googleBooksService.getListGoogleBooksSearchReturnLivroDto(bookName);
+
+        if (bookList == null || bookList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        //limitando o retorno da lista para 3 elementos
+        return bookList.subList(0, 3);
     }
 
 }

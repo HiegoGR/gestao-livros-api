@@ -30,6 +30,11 @@ public class LivroController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping("/books/google-api/name/{name}")
+    public ResponseEntity<List<LivroDto>> findBookName(@PathVariable("name") String bookName){
+        return ResponseEntity.ok().body(livroService.findBookName(bookName));
+    }
+
     @PostMapping("/books")
     public ResponseEntity<LivroDto> insertBook(@RequestBody LivroDto dto){
         LivroDto newDTO = livroService.save(dto);

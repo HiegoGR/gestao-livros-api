@@ -32,4 +32,10 @@ public class LivroDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataPublicacao;
 
+    public LivroDto(String titulo, String autor, String categoria, LocalDate dataPublicacao) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.categoria = categoria;
+        this.dataPublicacao = dataPublicacao;
+    }
 }
