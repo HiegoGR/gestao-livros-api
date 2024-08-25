@@ -4,6 +4,7 @@ import com.gestao.livros.gestaolivros.dto.LivroDto;
 import com.gestao.livros.gestaolivros.entities.LivroEntity;
 import com.gestao.livros.gestaolivros.mapper.LivroMapper;
 import com.gestao.livros.gestaolivros.repository.LivroRepository;
+import com.gestao.livros.gestaolivros.utils.ExceptionalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,11 +50,11 @@ public class LivroService {
     public LivroDto update(LivroDto livroDto) {
 
         if (livroDto.getId() == null) {
-            throw new RuntimeException("Informe id do livro para que o mesmo possa ser alterado");
+            ExceptionalUtil.badRequestException("Informe id do livro para que o mesmo possa ser alterado");
         }
         // Verifica se o Livro existe na base
         if (!livroRepository.existsById(livroDto.getId())) {
-            throw new RuntimeException("Livro não encontrado com o ID: " + livroDto.getId());
+            ExceptionalUtil.badRequestException("Livro não encontrado com o ID: " + livroDto.getId());
         }
 
         LivroEntity livro = livroMapper.toEntity(livroDto);
@@ -69,7 +70,7 @@ public class LivroService {
     public void delete(Long id) {
         // Verifica se o Livro existe na base para ser excluido
         if (!livroRepository.existsById(id)) {
-            throw new RuntimeException("Livro não encontrado com o ID: " + id);
+            ExceptionalUtil.badRequestException("Livro não encontrado com o ID: " + id);
         }
         livroRepository.deleteById(id);
     }

@@ -11,6 +11,7 @@ import com.gestao.livros.gestaolivros.repository.EmprestimoRepository;
 import com.gestao.livros.gestaolivros.repository.HistoricoLivrosDao;
 import com.gestao.livros.gestaolivros.repository.LivroRepository;
 import com.gestao.livros.gestaolivros.repository.UsuarioRepository;
+import com.gestao.livros.gestaolivros.utils.ExceptionalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +58,7 @@ public class EmprestimoService {
         boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
 
         if (livroEmprestado) {
-            throw new RuntimeException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
+            ExceptionalUtil.badRequestException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
         }
 
         EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
@@ -70,7 +71,7 @@ public class EmprestimoService {
         boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
 
         if (livroEmprestado) {
-            throw new RuntimeException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
+            ExceptionalUtil.badRequestException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
         }
 
         EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
@@ -87,11 +88,11 @@ public class EmprestimoService {
     public EmprestimoDto update(EmprestimoDto emprestimoDto) {
 
         if (emprestimoDto.getId() == null) {
-            throw new RuntimeException("Informe id do empréstimo para que o mesmo possa ser alterado");
+            ExceptionalUtil.badRequestException("Informe id do empréstimo para que o mesmo possa ser alterado");
         }
         // Verifica se o Empréstimos existe na base
         if (!emprestimoRepository.existsById(emprestimoDto.getId())) {
-            throw new RuntimeException("Empréstimo não encontrado com o ID: " + emprestimoDto.getId());
+            ExceptionalUtil.badRequestException("Empréstimo não encontrado com o ID: " + emprestimoDto.getId());
         }
 
         EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
@@ -107,7 +108,7 @@ public class EmprestimoService {
     public void delete(Long id) {
         // Verifica se o Empréstimo existe na base para ser excluido
         if (!emprestimoRepository.existsById(id)) {
-            throw new RuntimeException("Empréstimo não encontrado com o ID: " + id);
+            ExceptionalUtil.badRequestException("Empréstimo não encontrado com o ID: " + id);
         }
         emprestimoRepository.deleteById(id);
     }

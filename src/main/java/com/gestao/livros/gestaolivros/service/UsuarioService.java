@@ -4,6 +4,7 @@ import com.gestao.livros.gestaolivros.dto.UsuarioDto;
 import com.gestao.livros.gestaolivros.entities.UsuarioEntity;
 import com.gestao.livros.gestaolivros.mapper.UsuarioMapper;
 import com.gestao.livros.gestaolivros.repository.UsuarioRepository;
+import com.gestao.livros.gestaolivros.utils.ExceptionalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,11 +47,11 @@ public class UsuarioService {
     public UsuarioDto update(UsuarioDto usuarioDto) {
 
         if (usuarioDto.getId() == null) {
-            throw new RuntimeException("Informe id do usuario para que o mesmo possa ser alterado");
+            ExceptionalUtil.badRequestException("Informe id do usuario para que o mesmo possa ser alterado");
         }
         // Verifica se o usuário existe na base
         if (!usuarioRepository.existsById(usuarioDto.getId())) {
-            throw new RuntimeException("Usuário não encontrado com o ID: " + usuarioDto.getId());
+            ExceptionalUtil.badRequestException("Usuário não encontrado com o ID: " + usuarioDto.getId());
         }
 
         UsuarioEntity usuario = usuarioMapper.toEntity(usuarioDto);
@@ -66,7 +67,7 @@ public class UsuarioService {
     public void delete(Long id) {
         // Verifica se o usuário existe na base para ser excluido
         if (!usuarioRepository.existsById(id)){
-            throw new RuntimeException("Usuário não encontrado com o ID: " + id);
+            ExceptionalUtil.badRequestException("Usuário não encontrado com o ID: " + id);
         }
         usuarioRepository.deleteById(id);
     }
