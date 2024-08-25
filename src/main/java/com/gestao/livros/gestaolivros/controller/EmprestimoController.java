@@ -1,6 +1,7 @@
 package com.gestao.livros.gestaolivros.controller;
 
 import com.gestao.livros.gestaolivros.dto.EmprestimoDto;
+import com.gestao.livros.gestaolivros.dto.LivroDto;
 import com.gestao.livros.gestaolivros.service.EmprestimoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -36,6 +38,19 @@ public class EmprestimoController {
         EmprestimoDto newDTO = emprestimoService.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(newDTO);
+    }
+
+    @PostMapping("/loans/suggest-books")
+    public ResponseEntity<Map<String,Object>> insertLoanSuggestBooks(@RequestBody EmprestimoDto dto){
+        Map<String,Object> saveAndSuggest = emprestimoService.saveAndSuggestBooks(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
+        return ResponseEntity.created(uri).body(saveAndSuggest);
+    }
+
+    @GetMapping("/loans/suggest-books/user/{id}")
+    public ResponseEntity<List<LivroDto>> findSuggestBooksForUser(@PathVariable("id") Long idUser){
+        List<LivroDto> dtoList = emprestimoService.recomendarLivros(idUser);
+        return ResponseEntity.ok().body(dtoList);
     }
 
     @PutMapping("/loans")

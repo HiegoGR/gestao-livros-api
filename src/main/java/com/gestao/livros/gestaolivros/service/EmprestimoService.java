@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,23 @@ public class EmprestimoService {
         EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
         emprestimo = emprestimoRepository.save(emprestimo);
         return emprestimoMapper.toDto(emprestimo);
+    }
+
+    public Map<String,Object> saveAndSuggestBooks(EmprestimoDto emprestimoDto) {
+        Map<String,Object> retorno = new HashMap<>();
+        boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
+
+        if (livroEmprestado) {
+            throw new RuntimeException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
+        }
+
+        EmprestimoEntity emprestimo = emprestimoMapper.convertToEntity(emprestimoDto);
+        emprestimo = emprestimoRepository.save(emprestimo);
+
+        retorno.put("emprestimoSave",emprestimoMapper.toDto(emprestimo));
+        retorno.put("suggestBooks",recomendarLivros(emprestimoDto.getIdUsuario()));
+
+        return retorno;
     }
 
 
