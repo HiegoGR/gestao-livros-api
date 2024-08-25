@@ -22,7 +22,7 @@ public class UsuarioDto {
     @Size(max = 30)
     private String nome;
 
-    @Email
+    @Email(message = "O e-mail não esta no formato correto, favor conferir.")
     @NotNull
     @Size(max = 50)
     private String email;

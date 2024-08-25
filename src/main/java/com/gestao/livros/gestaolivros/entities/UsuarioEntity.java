@@ -23,13 +23,12 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Size(max = 30)
     @Column(name = "nome", length = 30, nullable = false)
     private String nome;
 
     @NotNull
-    @Email
+    @Email(message = "O e-mail não esta no formato correto, favor conferir.")
     @Size(max = 50)
     @Column(name = "email", length = 50, nullable = false)
     private String email;

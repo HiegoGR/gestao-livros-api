@@ -74,9 +74,8 @@ public abstract class AbstractTest {
     // Método que converte LocalDate para o formato "yyyy-MM-dd"
     public static String convertDateToString(LocalDate date) {
         if (date == null) {
-            throw new IllegalArgumentException("Data não pode ser nula.");
+            return null;
         }
-
         // Formata a data no formato "yyyy-MM-dd"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return date.format(formatter);

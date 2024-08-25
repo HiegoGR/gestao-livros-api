@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         String combinedMessage = String.join(", ", errors.values());
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 combinedMessage,
                 request.getRequestURI()
         );
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 combinedMessage,
                 request.getRequestURI()
         );
