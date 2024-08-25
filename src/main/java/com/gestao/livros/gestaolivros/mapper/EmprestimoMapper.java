@@ -37,4 +37,16 @@ public interface EmprestimoMapper {
         emprestimoEntity.setStatus(emprestimoDTO.getStatus());
         return emprestimoEntity;
     }
+
+    public default EmprestimoDto toDto2(EmprestimoEntity emprestimo) {
+        return new EmprestimoDto(
+                emprestimo.getId(),
+                emprestimo.getUsuario() != null ? emprestimo.getUsuario().getId() : null,
+                emprestimo.getLivro() != null ? emprestimo.getLivro().getId() : null,
+                emprestimo.getDataEmprestimo(),
+                emprestimo.getDataDevolucao(),
+                emprestimo.getStatus()
+        );
+    }
+
 }

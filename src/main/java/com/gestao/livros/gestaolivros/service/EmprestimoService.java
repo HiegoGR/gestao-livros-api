@@ -43,13 +43,13 @@ public class EmprestimoService {
 
     public List<EmprestimoDto> getAllEmprestimo() {
         return emprestimoRepository.findAll().stream()
-                .map(emprestimoMapper::toDto)
+                .map(emprestimoMapper::toDto2)
                 .collect(Collectors.toList());
     }
 
     //método para buscar Empréstimos pelo id
     public Optional<EmprestimoDto> findEmprestimoById(Long id) {
-        return emprestimoRepository.findById(id).map(emprestimoMapper::toDto);
+        return emprestimoRepository.findById(id).map(emprestimoMapper::toDto2);
     }
 
     //método para salvar Empréstimos

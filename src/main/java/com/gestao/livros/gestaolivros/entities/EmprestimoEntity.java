@@ -22,12 +22,12 @@ public class EmprestimoEntity {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY) // Define o relacionamento um para muitos
+    @ManyToOne(fetch = FetchType.EAGER) // Define o relacionamento um para muitos
     @JoinColumn(name = "usuario_id", nullable = false)
     private UsuarioEntity usuario;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY) // Define o relacionamento um para muitos
+    @ManyToOne(fetch = FetchType.EAGER) // Define o relacionamento um para muitos
     @JoinColumn(name = "livro_id", nullable = false)
     private LivroEntity livro;
 
