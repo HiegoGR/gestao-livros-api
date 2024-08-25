@@ -56,6 +56,7 @@ public class EmprestimoService {
     //método para salvar Empréstimos
     public EmprestimoDto save(EmprestimoDto emprestimoDto) {
         boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
+        emprestimoDto.setStatus(true); // por padrão sempre vai ser true, quando devolve sera falso
 
         if (livroEmprestado) {
             ExceptionalUtil.badRequestException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
@@ -69,6 +70,7 @@ public class EmprestimoService {
     public Map<String,Object> saveAndSuggestBooks(EmprestimoDto emprestimoDto) {
         Map<String,Object> retorno = new HashMap<>();
         boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndStatusIsTrue(emprestimoDto.getIdLivro());
+        emprestimoDto.setStatus(true); // por padrão sempre vai ser true, quando devolve sera falso
 
         if (livroEmprestado) {
             ExceptionalUtil.badRequestException("O livro está com emprestimo ativo. O mesmo so pode ser emprestado quando for devolvido e dado baixa");
