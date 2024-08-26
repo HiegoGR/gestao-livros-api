@@ -59,13 +59,13 @@ livro_id bigint not null,
 data_emprestimo date not null check (data_emprestimo <= current_date),
 data_devolucao date not null,
 status boolean not null,
-foreign key (usuario_id) references usuarios(id),
-foreign key (livro_id) references livros(id),
+foreign key (usuario_id) references usuario(id),
+foreign key (livro_id) references livro(id),
 constraint uc_livro_emprestimo_ativo unique (livro_id, status)
 );
 ```
 
-3. A configuração do H2 Database está definida automaticamente e não requer configuração manual. 
+3. A configuração do banco H2 está definida automaticamente e não precisa de configuração manual. 
    O banco de dados será inicializado em memória e será populado com dados de exemplo na inicialização 
    da aplicação.
 4. A aplicação possui um tratamento global de erros. Caso ocorra um erro, 
