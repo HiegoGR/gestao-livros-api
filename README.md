@@ -30,10 +30,45 @@ Com intuito de desenvolver API REST para as operações CRUD é fazer a integra�
 
 ## Obs
 
-1. A configuração do H2 Database está definida automaticamente e não requer configuração manual. 
+1. A modelagem do banco de dados está sendo gerada automaticamente pelo Hibernate.
+   Usando as anotaçoes do Spring Boot para gerenciar o mapeamento entre as classes Java e as tabelas do banco de dados.
+
+Logo a modelagem do banco ficaria desta maneira :
+```
+create table usuario (
+id bigint auto_increment primary key,
+nome varchar(30) not null,
+email varchar(50) not null,
+data_cadastro date not null check (data_cadastro <= current_date),
+telefone varchar(14) not null
+);
+
+create table livro (
+id bigint auto_increment primary key,
+titulo varchar(100) not null,
+autor varchar(50) not null,
+isbn varchar(50) not null unique,
+data_publicacao date not null,
+categoria varchar(50) not null
+);
+
+create table emprestimo (
+id bigserial auto_increment primary key,
+usuario_id bigint not null,
+livro_id bigint not null,
+data_emprestimo date not null check (data_emprestimo <= current_date),
+data_devolucao date not null,
+status boolean not null,
+foreign key (usuario_id) references usuarios(id),
+foreign key (livro_id) references livros(id),
+constraint uc_livro_emprestimo_ativo unique (livro_id, status)
+);
+```
+
+3. A configuração do H2 Database está definida automaticamente e não requer configuração manual. 
    O banco de dados será inicializado em memória e será populado com dados de exemplo na inicialização 
    da aplicação.
-2. A aplicação possui um tratamento global de erros. Caso ocorra um erro, 
+4. A aplicação possui um tratamento global de erros. Caso ocorra um erro, 
    o formato da resposta será similar a está:
      ``` {
    "timestamp": 1724610087,
